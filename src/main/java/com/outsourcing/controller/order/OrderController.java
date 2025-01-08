@@ -20,13 +20,7 @@ public class OrderController {
 
     @PostMapping
     public Order createOrder(@RequestBody OrderRequestDto orderRequestDto) {
-        Order order = new Order(
-                orderRequestDto.getUserName(),
-                orderRequestDto.getStoreName(),
-                orderRequestDto.getAmount(),
-                orderRequestDto.getMenuName(),
-                OrderStatus.valueOf(orderRequestDto.getStatus().toUpperCase())
-        );
+        Order order = orderRequestDto.toOrder();  // OrderRequestDto에서 직접 변환
         return orderService.createOrder(order);
     }
 
