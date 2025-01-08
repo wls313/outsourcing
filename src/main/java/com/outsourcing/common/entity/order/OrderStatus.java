@@ -1,4 +1,4 @@
-package com.outsourcing.entity.order;
+package com.outsourcing.common.entity.order;
 
 public enum OrderStatus {
     ORDER_CONFIRMED,    // 주문 확인중

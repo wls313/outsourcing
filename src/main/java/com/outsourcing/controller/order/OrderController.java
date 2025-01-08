@@ -1,16 +1,15 @@
 package com.outsourcing.controller.order;
 
-import com.outsourcing.entity.order.Order;
-import com.outsourcing.entity.order.OrderStatus;
+import com.outsourcing.common.entity.order.Order;
+import com.outsourcing.common.entity.order.OrderStatus;
 import com.outsourcing.dto.order.OrderRequestDto;
 import com.outsourcing.service.order.OrderService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/order")  // "orders" -> "order"
+@RequestMapping("/api/order")
 public class OrderController {
 
     private final OrderService orderService;
@@ -22,7 +21,7 @@ public class OrderController {
     @PostMapping
     public Order createOrder(@RequestBody OrderRequestDto orderRequestDto) {
         Order order = new Order(
-                orderRequestDto.getMemberName(),
+                orderRequestDto.getUserName(),
                 orderRequestDto.getStoreName(),
                 orderRequestDto.getAmount(),
                 orderRequestDto.getMenuName(),

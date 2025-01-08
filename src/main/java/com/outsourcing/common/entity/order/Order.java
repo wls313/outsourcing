@@ -1,4 +1,4 @@
-package com.outsourcing.entity.order;
+package com.outsourcing.common.entity.order;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -11,7 +11,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String memberName;
+    private String userName;
     private String storeName;
     private int amount;
     private String menuName;
@@ -25,8 +25,8 @@ public class Order {
         this.createdAt = LocalDateTime.now();
     }
 
-    public Order(String memberName, String storeName, int amount, String menuName, OrderStatus status) {
-        this.memberName = memberName;
+    public Order(String userName, String storeName, int amount, String menuName, OrderStatus status) {
+        this.userName = userName;
         this.storeName = storeName;
         this.amount = amount;
         this.menuName = menuName;
@@ -42,8 +42,8 @@ public class Order {
         return id;
     }
 
-    public String getMemberName() {
-        return memberName;
+    public String getUserName() {
+        return userName;
     }
 
     public String getStoreName() {

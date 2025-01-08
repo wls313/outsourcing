@@ -1,7 +1,7 @@
 package com.outsourcing.service.order;
 
-import com.outsourcing.entity.order.Order;
-import com.outsourcing.entity.order.OrderStatus;
+import com.outsourcing.common.entity.order.Order;
+import com.outsourcing.common.entity.order.OrderStatus;
 import com.outsourcing.repository.order.OrderRepository;
 import org.springframework.stereotype.Service;
 
