@@ -1,10 +1,15 @@
 package com.outsourcing.common.entity.order;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
+@Getter
+@NoArgsConstructor
 @Entity
-@Table(name = "orders")
+@Table(name = "`order`")
 public class Order {
 
     @Id
@@ -19,50 +24,15 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    private LocalDateTime createdAt;
-
-    protected Order() {
-        this.createdAt = LocalDateTime.now();
-    }
-
     public Order(String userName, String storeName, int amount, String menuName, OrderStatus status) {
         this.userName = userName;
         this.storeName = storeName;
         this.amount = amount;
         this.menuName = menuName;
         this.status = status;
-        this.createdAt = LocalDateTime.now();
     }
 
     public void updateStatus(OrderStatus status) {
-        this.status = status;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getStoreName() {
-        return storeName;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public String getMenuName() {
-        return menuName;
-    }
-
-    public OrderStatus getStatus() {
-        return status;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+        this.status = status; // 문제없음
     }
 }
