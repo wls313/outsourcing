@@ -7,7 +7,9 @@ import com.outsourcing.dto.store.GetAllStoreResponseDto;
 import com.outsourcing.dto.store.GetStoreResponseDto;
 import com.outsourcing.repository.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -33,7 +35,12 @@ public class StoreService {
 
     // 조회, 단건
     public GetStoreResponseDto getStoreById(Long id) {
-        Store findStore = storeRepository.findByIdOrElseThrow(id);
+        Store findStore = findById(id);
         return GetStoreResponseDto.getStoreDto(findStore);
+    }
+
+    private Store findById(Long id) {
+        return storeRepository.findById(id).
+                orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "게시글이 없습니다. = " + id));
     }
 }
