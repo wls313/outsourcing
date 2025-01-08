@@ -13,7 +13,7 @@ public class CreateStoreRequestDto {
 
     private String closeTime; // 가게 마감시간
 
-    private double minimumOrderPrice; // 최소주문금액
+    private int minimumOrderPrice; // 최소주문금액
 
     private String notice; // 공지사항
 }

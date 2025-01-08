@@ -10,7 +10,7 @@ public class GetAllStoreResponseDto {
 
     private final String StoreName;
 
-    public static GetAllStoreResponseDto toDto(Store store) {
+    public static GetAllStoreResponseDto getAllStoreDto(Store store) {
 
         return new GetAllStoreResponseDto(store.getStoreName());
     }

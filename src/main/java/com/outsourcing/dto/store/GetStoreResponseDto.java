@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
-public class CreateStoreResponseDto {
+public class GetStoreResponseDto {
 
     private final Long id;
 
@@ -24,9 +24,9 @@ public class CreateStoreResponseDto {
 
     private final LocalDateTime createDate; // 오픈일
 
-    public static CreateStoreResponseDto createDto(Store store) {
+    public static GetStoreResponseDto getStoreDto(Store store) {
 
-        return new CreateStoreResponseDto(store.getId(),
+        return new GetStoreResponseDto(store.getId(),
                 store.getStoreName(),
                 store.getOpenTime(),
                 store.getCloseTime(),

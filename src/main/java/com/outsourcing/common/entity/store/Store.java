@@ -27,7 +27,7 @@ public class Store {
     private String openTime; // 가게 오픈시간
     private String closeTime; // 가게 마감시간
 
-    private double minimumOrderPrice; // 최소주문금액
+    private int minimumOrderPrice; // 최소주문금액
 
     private boolean storeStatus; // 폐업여부
 
@@ -35,7 +35,7 @@ public class Store {
 
     @CreatedDate
     @Column(updatable = false)
-    private LocalDateTime storeOpenDay; // 오픈일
+    private LocalDateTime createDate; // 오픈일
 
     public Store(CreateStoreRequestDto requestDto) {
         this.storeName = requestDto.getStoreName();
