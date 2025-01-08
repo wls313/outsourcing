@@ -1,12 +1,19 @@
 package com.outsourcing.common.entity.store;
 
+import com.outsourcing.dto.store.CreateStoreRequestDto;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+@Getter
 @Entity
 @Table(name = "store")
+@NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Store {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +34,16 @@ public class Store {
     private String notice; // 공지사항
 
     @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime storeOpenDay; // 오픈일
 
-    public Store() {}
+//    public Store() {}
+
+    public Store(CreateStoreRequestDto requestDto) {
+        this.storeName = requestDto.getStoreName();
+        this.openTime = requestDto.getOpenTime();
+        this.closeTime = requestDto.getCloseTime();
+        this.minimumOrderPrice = requestDto.getMinimumOrderPrice();
+        this.notice = requestDto.getNotice();
+    }
 }
