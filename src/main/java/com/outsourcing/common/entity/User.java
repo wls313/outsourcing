@@ -6,7 +6,7 @@ import lombok.Getter;
 @Entity
 @Getter
 @Table(name = "user")
-public class User extends BaseEntity{
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,26 +14,35 @@ public class User extends BaseEntity{
 
     private String name;
 
-    private String email;
+    @Column(nullable = false)
+    private String userId;
 
     private String password;
 
-    public enum Role {user, owner}
-
-    private Role role;
+    private String role;
 
     private boolean status;
 
-    public User(String name, String email, String password, Role role, boolean status){
+
+
+    public User(String name, String userId, String password, String role){
         this.name = name;
-        this.email = email;
+        this.userId = userId;
         this.password = password;
         this.role = role;
-        this.status = status;
+        this.status = true;
     }
 
     public User(){
 
     }
 
+    public void updateUser(String name, String email){
+        this.name = name;
+        this.userId = email;
+    }
+
+    public void updatePassword(String password){
+        this.password = password;
+    }
 }
