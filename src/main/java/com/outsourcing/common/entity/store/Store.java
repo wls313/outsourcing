@@ -37,8 +37,6 @@ public class Store {
     @Column(updatable = false)
     private LocalDateTime storeOpenDay; // 오픈일
 
-//    public Store() {}
-
     public Store(CreateStoreRequestDto requestDto) {
         this.storeName = requestDto.getStoreName();
         this.openTime = requestDto.getOpenTime();
