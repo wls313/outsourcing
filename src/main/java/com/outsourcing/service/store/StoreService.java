@@ -38,7 +38,6 @@ public class StoreService {
     }
 
     // 수정
-    @Transactional
     public UpdateStoreResponseDto updateStore(Long id, UpdateStoreRequestDto requestDto) {
         Store findStore = findById(id);
         findStore.updateStore(requestDto);
