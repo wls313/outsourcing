@@ -1,4 +1,4 @@
-package com.outsourcing.common;
+package com.outsourcing.common.config;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
