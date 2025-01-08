@@ -1,21 +1,23 @@
-package com.outsourcing.common.entitiy.order;
+package com.outsourcing.entity.order;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "orders")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String customerName;
-    private String productName;
-    private int quantity;
+    private String memberName;
+    private String storeName;
+    private int amount;
+    private String menuName;
 
     @Enumerated(EnumType.STRING)
-    private com.outsourcing.common.entity.OrderStatus status;
+    private OrderStatus status;
 
     private LocalDateTime createdAt;
 
@@ -23,15 +25,16 @@ public class Order {
         this.createdAt = LocalDateTime.now();
     }
 
-    public Order(String customerName, String productName, int quantity, com.outsourcing.common.entity.OrderStatus status) {
-        this.customerName = customerName;
-        this.productName = productName;
-        this.quantity = quantity;
+    public Order(String memberName, String storeName, int amount, String menuName, OrderStatus status) {
+        this.memberName = memberName;
+        this.storeName = storeName;
+        this.amount = amount;
+        this.menuName = menuName;
         this.status = status;
         this.createdAt = LocalDateTime.now();
     }
 
-    public void updateStatus(com.outsourcing.common.entity.OrderStatus status) {
+    public void updateStatus(OrderStatus status) {
         this.status = status;
     }
 
@@ -39,19 +42,23 @@ public class Order {
         return id;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public String getMemberName() {
+        return memberName;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getStoreName() {
+        return storeName;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getAmount() {
+        return amount;
     }
 
-    public com.outsourcing.common.entity.OrderStatus getStatus() {
+    public String getMenuName() {
+        return menuName;
+    }
+
+    public OrderStatus getStatus() {
         return status;
     }
 
