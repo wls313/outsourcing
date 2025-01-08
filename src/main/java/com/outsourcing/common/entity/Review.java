@@ -1,4 +1,4 @@
-package com.outsourcing.outsourcing.common.entity;
+package com.outsourcing.common.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
