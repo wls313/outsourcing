@@ -1,4 +1,4 @@
-package com.shcedule.outsourcing.common;
+package com.outsourcing.common.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

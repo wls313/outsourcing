@@ -1,9 +1,7 @@
-package com.shcedule.outsourcing.common;
+package com.outsourcing.common.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-
-import javax.management.relation.Role;
 
 @Entity
 @Getter
@@ -20,18 +18,18 @@ public class User {
 
     private String password;
 
-    public enum Role {user, owner}
-
-    private Role role;
+    private String role;
 
     private boolean status;
 
-    public User(String name, String email, String password, Role role, boolean status){
+
+
+    public User(String name, String email, String password, String role){
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
-        this.status = status;
+        this.status = true;
     }
 
     public User(){
