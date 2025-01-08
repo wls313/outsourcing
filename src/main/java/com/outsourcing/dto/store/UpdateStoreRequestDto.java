@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class CreateStoreRequestDto {
+public class UpdateStoreRequestDto {
 
     private final String storeName; // 가게명
 
@@ -13,7 +13,7 @@ public class CreateStoreRequestDto {
 
     private final String closeTime; // 가게 마감시간
 
-    private final int minimumOrderPrice; // 최소주문금액
+    private final Integer minimumOrderPrice; // 최소주문금액
 
     private final String notice; // 공지사항
 }

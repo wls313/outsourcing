@@ -1,6 +1,7 @@
 package com.outsourcing.common.entity.store;
 
 import com.outsourcing.dto.store.CreateStoreRequestDto;
+import com.outsourcing.dto.store.UpdateStoreRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,5 +44,29 @@ public class Store {
         this.closeTime = requestDto.getCloseTime();
         this.minimumOrderPrice = requestDto.getMinimumOrderPrice();
         this.notice = requestDto.getNotice();
+    }
+
+    public void updateStore(UpdateStoreRequestDto requestDto) {
+//        this.storeName = requestDto.getStoreName() == null ? this.storeName : requestDto.getStoreName();
+//        this.openTime = requestDto.getOpenTime() == null ? this.openTime : requestDto.getOpenTime();
+//        this.closeTime = requestDto.getCloseTime() == null ? this.closeTime : requestDto.getCloseTime();
+//        this.minimumOrderPrice = requestDto.getMinimumOrderPrice() == null ? this.minimumOrderPrice : requestDto.getMinimumOrderPrice();
+//        this.notice = requestDto.getNotice() == null ? this.notice : requestDto.getNotice();
+
+        if (requestDto.getStoreName() != null) {
+            this.storeName = requestDto.getStoreName();
+        }
+        if (requestDto.getOpenTime() != null) {
+            this.openTime = requestDto.getOpenTime();
+        }
+        if (requestDto.getCloseTime() != null) {
+            this.closeTime = requestDto.getCloseTime();
+        }
+        if (requestDto.getMinimumOrderPrice() != null) {
+            this.minimumOrderPrice = requestDto.getMinimumOrderPrice();
+        }
+        if (requestDto.getNotice() != null) {
+            this.notice = requestDto.getNotice();
+        }
     }
 }
