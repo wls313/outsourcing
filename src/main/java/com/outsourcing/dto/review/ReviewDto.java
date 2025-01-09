@@ -1,6 +1,6 @@
 package com.outsourcing.dto.review;
 
-import com.outsourcing.common.entity.Review;
+import com.outsourcing.common.entity.Review.Review;
 
 import java.time.LocalDateTime;
 

@@ -1,16 +1,12 @@
 package com.outsourcing.repository.review;
 
-import com.outsourcing.common.entity.Order;
-import com.outsourcing.common.entity.Review;
+import com.outsourcing.common.entity.Review.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<Review,Long> {
+    List<Review> findByStoreName(String storeName);
 
-    @Query("SELECT o FROM Order o WHERE o.id = :id")
-    Optional<Order> findByOrderId(@Param("id") Long id);
-
+    List<Review> findByUserName(String userName);
 }
