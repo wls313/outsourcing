@@ -2,8 +2,10 @@ package com.outsourcing.dto.order;
 
 import com.outsourcing.common.entity.order.Order;
 import com.outsourcing.common.entity.order.OrderStatus;
+
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // 기본 생성자
 @AllArgsConstructor // 모든 필드를 초기화하는 생성자
 public class OrderRequestDto {
+
 
     @NotBlank(message = "User name is required")
     private String userName;

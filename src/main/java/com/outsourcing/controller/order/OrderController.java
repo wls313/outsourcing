@@ -22,9 +22,10 @@ public class OrderController {
     }
 
     @PostMapping
-    public OrderResponseDto createOrder(@RequestBody @Valid OrderRequestDto orderRequestDto) {
-        Order order = orderRequestDto.toOrder();
-        return new OrderResponseDto(orderService.createOrder(order));
+
+    public Order createOrder(@RequestBody OrderRequestDto orderRequestDto) {
+        Order order = orderRequestDto.toOrder();  // OrderRequestDto에서 직접 변환
+        return orderService.createOrder(order);
     }
 
     @GetMapping
