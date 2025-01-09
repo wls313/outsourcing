@@ -1,7 +1,7 @@
 package com.outsourcing.service.login;
 
 import com.outsourcing.common.config.PasswordEncoder;
-import com.outsourcing.common.entity.User;
+import com.outsourcing.common.entity.user.User;
 import com.outsourcing.dto.login.LoginResponseDto;
 import com.outsourcing.repository.login.LoginRepository;
 import org.springframework.http.HttpStatus;
@@ -20,15 +20,19 @@ public class LoginService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public LoginResponseDto login(String userId,String password) {
-        Optional<User> byUserId = loginRepository.findByUserId(userId);
+    public LoginResponseDto login(String email,String password) {
+        Optional<User> byEmail = loginRepository.findByEmail(email);
 
-        if(byUserId.isEmpty()){
+        if(byEmail.isEmpty()){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"아이디 또는 비밀번호가 잘못됐습니다");
         }
 
-        User user = byUserId.get();
+        User user = byEmail.get();
 
-        return new LoginResponseDto(user.getUserId());
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "아이디 또는 비밀번호가 잘못됐습니다");
+        }
+
+        return new LoginResponseDto(user.getEmail());
     }
 }

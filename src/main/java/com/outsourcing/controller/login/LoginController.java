@@ -29,15 +29,15 @@ public class LoginController {
             HttpServletRequest httpRequest,
             HttpServletResponse httpResponse
     ){
-        LoginResponseDto responseDto = loginService.login(request.userId(),request.password());
+        LoginResponseDto responseDto = loginService.login(request.email(),request.password());
 
-        if(responseDto.userId() == null){
+        if(responseDto.email() == null){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         HttpSession session = httpRequest.getSession();
         session.setAttribute(Const.LOGIN_USER, responseDto);
 
-        Cookie cookie = new Cookie("userId", responseDto.userId());
+        Cookie cookie = new Cookie("email", responseDto.email());
 
         httpResponse.addCookie(cookie);
 
