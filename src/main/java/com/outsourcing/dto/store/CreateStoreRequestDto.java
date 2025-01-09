@@ -1,11 +1,14 @@
 package com.outsourcing.dto.store;
 
+import com.outsourcing.common.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
 public class CreateStoreRequestDto {
+
+    private final User user;
 
     private final String storeName; // 가게명
 

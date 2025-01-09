@@ -47,8 +47,8 @@ public class StoreController {
     }
 
     // 가게 폐업
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStoreAPI(@PathVariable Long id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<UpdateStoreResponseDto> deleteStoreAPI(@PathVariable Long id) {
         storeService.deleteStore(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

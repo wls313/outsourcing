@@ -1,7 +1,7 @@
 package com.outsourcing.service;
 
 import com.outsourcing.common.config.PasswordEncoder;
-import com.outsourcing.common.entity.User;
+import com.outsourcing.common.entity.user.User;
 import com.outsourcing.common.exception.IdNotFoundExcetion;
 import com.outsourcing.common.exception.PasswordMismatchException;
 import com.outsourcing.common.exception.UnavailableIdOrPasswordException;
