@@ -1,9 +1,7 @@
 package com.outsourcing.service.store;
 
 import com.outsourcing.common.entity.store.Store;
-import com.outsourcing.common.entity.user.User;
 import com.outsourcing.dto.store.*;
-import com.outsourcing.repository.UserRepository;
 import com.outsourcing.repository.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,7 +15,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StoreService {
     private final StoreRepository storeRepository;
-    private final UserRepository userRepository;
 
     // 생성
     public CreateStoreResponseDto createStore(CreateStoreRequestDto requestDto) {
