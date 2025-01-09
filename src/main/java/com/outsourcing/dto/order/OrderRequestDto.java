@@ -2,18 +2,31 @@ package com.outsourcing.dto.order;
 
 import com.outsourcing.common.entity.order.Order;
 import com.outsourcing.common.entity.order.OrderStatus;
+import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor // 기본 생성자
+@AllArgsConstructor // 모든 필드를 초기화하는 생성자
 public class OrderRequestDto {
 
-    private final String userName;  // 회원명
-    private final String storeName;   // 가게명
-    private final int menuPrice;         // 금액
-    private final String menuName;    // 메뉴명
-    private final String status;      // 상태
+    @NotBlank(message = "User name is required")
+    private String userName;
+
+    @NotBlank(message = "Store name is required")
+    private String storeName;
+
+    @Positive(message = "Menu price must be greater than 0")
+    private int menuPrice;
+
+    @NotBlank(message = "Menu name is required")
+    private String menuName;
+
+    @Pattern(regexp = "ORDER_CONFIRMED|COOKING_STARTED|DELIVERY_IN_PROGRESS|DELIVERY_COMPLETED",
+            message = "Invalid order status")
+    private String status;
 
     public Order toOrder() {
         return new Order(
