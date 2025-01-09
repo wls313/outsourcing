@@ -5,6 +5,7 @@ import com.outsourcing.common.entity.User;
 import com.outsourcing.common.exception.IdNotFoundExcetion;
 import com.outsourcing.common.exception.PasswordMismatchException;
 import com.outsourcing.common.exception.UnavailableIdOrPasswordException;
+import com.outsourcing.dto.UserCreateResponseDto;
 import com.outsourcing.dto.UserResponseDto;
 import com.outsourcing.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserResponseDto signup(String name, String email, String password, String role){
+    public UserCreateResponseDto signup(String name, String email, String password, String role){
 
         String encodePassword = passwordEncoder.encode(password);
 
@@ -39,7 +40,7 @@ public class UserService {
 
         User saveUser = userRepository.save(user);
 
-        return UserResponseDto.toDto(saveUser);
+        return UserCreateResponseDto.createDto(saveUser);
 
     }
 
@@ -48,7 +49,12 @@ public class UserService {
         List<User> findUser = userRepository.findByRole(role);
 
         return findUser.stream()
-                .map(user -> new UserResponseDto(user.getId(), user.getName(), user.getEmail(), user.getRole()))
+                .map(user -> new UserResponseDto(
+                        user.getId(),
+                        user.getName(),
+                        user.getEmail(),
+                        user.getRole()
+                        ))
                 .collect(Collectors.toList());
 
     }
@@ -69,7 +75,7 @@ public class UserService {
 
     public UserResponseDto updateUser(Long id, String name, String email){
 
-        User findUser = userRepository.findByIdOrElseThrow(id);
+        User findUser = findByIdOrElseThrow(id);
 
         findUser.updateUser(name, email);
 
@@ -81,7 +87,7 @@ public class UserService {
 
     public void updateUserPassword(Long id, String oldPassword, String newPassword){
 
-        User findUser = userRepository.findByIdOrElseThrow(id);
+        User findUser = findByIdOrElseThrow(id);
 
         if(oldPassword.equals(newPassword)){
             throw new UnavailableIdOrPasswordException("같은 비밀번호는 사용할 수 없습니다");
@@ -102,7 +108,7 @@ public class UserService {
 
     public void deleteUser(Long id, String password){
 
-        User findUser = userRepository.findByIdOrElseThrow(id);
+        User findUser = findByIdOrElseThrow(id);
 
         if(!passwordEncoder.matches(password, findUser.getPassword())){
             throw new PasswordMismatchException("비밀번호를 확인하세요");
@@ -114,7 +120,9 @@ public class UserService {
 
     }
 
-
+    public User findByIdOrElseThrow(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new IdNotFoundExcetion("아이디를 확인해주세요"));
+    }
 
 
 }

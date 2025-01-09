@@ -1,5 +1,6 @@
 package com.outsourcing.controller;
 
+import com.outsourcing.dto.UserCreateResponseDto;
 import com.outsourcing.dto.UserPasswordUpdateRequestDto;
 import com.outsourcing.dto.UserRequestDto;
 import com.outsourcing.dto.UserResponseDto;
@@ -20,11 +21,11 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<UserResponseDto> signup(
+    public ResponseEntity<UserCreateResponseDto> signup(
             @Valid
             @RequestBody UserRequestDto dto
     ){
-        UserResponseDto userCreateResponseDto =
+        UserCreateResponseDto userCreateResponseDto =
                 userService.signup(
                         dto.getName(),
                         dto.getEmail(),
