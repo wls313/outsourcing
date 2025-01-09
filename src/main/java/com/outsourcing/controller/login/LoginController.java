@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,5 +43,20 @@ public class LoginController {
         httpResponse.addCookie(cookie);
 
         return new ResponseEntity<>(responseDto,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/logout")
+    public ResponseEntity<Void> logout(HttpServletRequest httpRequest, HttpServletResponse httpResponse){
+        HttpSession session = httpRequest.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        Cookie cookie = new Cookie("email" , null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        httpResponse.addCookie(cookie);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
