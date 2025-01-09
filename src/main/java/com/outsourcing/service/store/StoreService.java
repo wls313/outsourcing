@@ -45,6 +45,10 @@ public class StoreService {
     }
 
     // 삭제, 폐업
+    public void deleteStore(Long id) {
+        Store findStore = findById(id);
+        storeRepository.delete(findStore);
+    }
 
     private Store findById(Long id) {
         return storeRepository.findById(id).
