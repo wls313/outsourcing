@@ -3,6 +3,8 @@ package com.outsourcing.service.review;
 import com.outsourcing.common.entity.Review.Review;
 import com.outsourcing.common.entity.order.Order;
 import com.outsourcing.common.entity.user.User;
+import com.outsourcing.common.exception.review.ReviewUserIdException;
+import com.outsourcing.common.exception.review.ReviewUserNameException;
 import com.outsourcing.dto.review.ReviewDto;
 import com.outsourcing.dto.review.ReviewRequestDto;
 import com.outsourcing.dto.review.ReviewStoreResponseDto;
@@ -28,10 +30,14 @@ public class ReviewService {
 
     public ReviewDto createReview(Long id,ReviewRequestDto requestDto) {
         Order order = orderRepository.findByOrderId(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "OrderId not found"));
+                .orElseThrow(() -> new ReviewUserIdException(id));
+
+        if(order == null || !order.getStatus().equals("DELIVERY_COMPLETED")){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"no");
+        }
 
         User user = userRepository.findByName(order.getUserName())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Id not found"));
+                .orElseThrow(() -> new ReviewUserNameException(order.getUserName()));
 
         Review review = Review.create(requestDto.rating(),requestDto.contents(),order.getUserName(),order.getStoreName(),order.getMenuName(),user, order.getId());
 
@@ -57,7 +63,7 @@ public class ReviewService {
     @Transactional
     public ReviewStoreResponseDto updateReview(Long id, Double rating, String contents) {
         Review review = reviewRepository.findById(id)
-                .orElseThrow(()->new RuntimeException(id+"가 없습니다"));
+                .orElseThrow(()->new ReviewUserIdException(id));
 
         review.updateReview(rating,contents);
 
