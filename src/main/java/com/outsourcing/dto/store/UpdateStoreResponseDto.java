@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
-public class GetStoreResponseDto {
+public class UpdateStoreResponseDto {
     private final Long id;
 
     private final String storeName;
@@ -23,9 +23,9 @@ public class GetStoreResponseDto {
 
     private final LocalDateTime createDate;
 
-    public static GetStoreResponseDto getStoreDto(Store store) {
+    public static UpdateStoreResponseDto updateStoreDto(Store store) {
 
-        return new GetStoreResponseDto(store.getId(),
+        return new UpdateStoreResponseDto(store.getId(),
                 store.getStoreName(),
                 store.getOpenTime(),
                 store.getCloseTime(),
@@ -33,5 +33,4 @@ public class GetStoreResponseDto {
                 store.getNotice(),
                 store.getCreateDate());
     }
-
 }

@@ -1,6 +1,6 @@
 package com.outsourcing.repository;
 
-import com.outsourcing.common.entity.User;
+import com.outsourcing.common.entity.user.User;
 import com.outsourcing.common.exception.IdNotFoundExcetion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
