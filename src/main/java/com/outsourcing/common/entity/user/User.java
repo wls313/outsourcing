@@ -1,12 +1,13 @@
-package com.outsourcing.common.entity;
+package com.outsourcing.common.entity.user;
 
+import com.outsourcing.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
 @Entity
 @Getter
 @Table(name = "user")
-public class User extends BaseEntity{
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,13 +1,13 @@
 package com.outsourcing.service;
 
 import com.outsourcing.common.config.PasswordEncoder;
-import com.outsourcing.common.entity.User;
+import com.outsourcing.common.entity.user.User;
 import com.outsourcing.common.exception.IdNotFoundExcetion;
 import com.outsourcing.common.exception.PasswordMismatchException;
 import com.outsourcing.common.exception.UnavailableIdOrPasswordException;
 import com.outsourcing.dto.UserCreateResponseDto;
 import com.outsourcing.dto.UserResponseDto;
-import com.outsourcing.repository.UserRepository;
+import com.outsourcing.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

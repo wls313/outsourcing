@@ -1,6 +1,6 @@
 package com.outsourcing.dto;
 
-import com.outsourcing.common.entity.User;
+import com.outsourcing.common.entity.user.User;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -34,7 +34,7 @@ public class UserCreateResponseDto {
                 user.getName(),
                 user.getEmail(),
                 user.getRole(),
-                createdDate(user.getCreateDate())
+                createdDate(user.getCreateAt())
         );
     }
 
