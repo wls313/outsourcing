@@ -59,6 +59,7 @@ public class UserController {
             @RequestBody UserRequestDto dto
     ){
 
+        //이메일 수정 불가.
         UserResponseDto updateUser = userService.updateUser(id, dto.getName(), dto.getEmail());
 
         return new ResponseEntity<>(updateUser, HttpStatus.OK);
@@ -82,13 +83,8 @@ public class UserController {
             @PathVariable Long id,
             @RequestBody UserRequestDto dto
     ){
-
         userService.deleteUser(id, dto.getPassword());
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
     }
-
 }
-
-

@@ -1,7 +1,6 @@
 package com.outsourcing.controller.order;
 
 import com.outsourcing.common.entity.order.Order;
-import com.outsourcing.common.entity.user.User;
 import com.outsourcing.dto.order.OrderRequestDto;
 import com.outsourcing.dto.order.OrderResponseDto;
 import com.outsourcing.service.order.OrderService;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("orders")
+@RequestMapping("/orders")
 @RequiredArgsConstructor
 public class OrderController {
 
@@ -32,20 +31,19 @@ public class OrderController {
     }
 
     //손님 주문 목록 조회
-    @GetMapping("/order/{userId}")
+    @GetMapping("/order/user/{userId}")
     public ResponseEntity<List<OrderResponseDto>> foundOrderByUserId(
-            @PathVariable("userId")Long id,
-            @RequestBody User user
+            @PathVariable Long userId
     ){
 
-        List<OrderResponseDto> orderResponseDto = orderService.foundOrderByUserIdService(user);
+        List<OrderResponseDto> orderResponseDto = orderService.foundOrderByUserIdService(userId);
 
         return new ResponseEntity<>(orderResponseDto, HttpStatus.FOUND);
 
     }
 
     //매장 주문 목록 조회
-    @GetMapping("/order/{storeId}")
+    @GetMapping("/order/store/{storeId}")
     public ResponseEntity<List<OrderResponseDto>> findAllOrder(@PathVariable("storeId")Long storeId){
 
         List<OrderResponseDto> orderResponseDto = orderService.findAllOrderByStoreIdService(storeId);

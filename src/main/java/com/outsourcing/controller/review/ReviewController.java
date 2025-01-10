@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/review")
+@RequestMapping("/review")
 @RequiredArgsConstructor
 public class ReviewController {
 
@@ -26,16 +26,16 @@ public class ReviewController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @GetMapping("/store/{storeName}")
-    public ResponseEntity<List<ReviewStoreResponseDto>> findByStoreName(@PathVariable String storeName){
-        List<ReviewStoreResponseDto> responseDtoList = reviewService.findByStoreName(storeName);
+    @GetMapping("/store/{id}")
+    public ResponseEntity<List<ReviewStoreResponseDto>> findByStoreId(@PathVariable Long id){
+        List<ReviewStoreResponseDto> responseDtoList = reviewService.findByStoreId(id);
 
         return new ResponseEntity<>(responseDtoList,HttpStatus.OK);
     }
 
-    @GetMapping("/user/{userName}")
-    public ResponseEntity<List<ReviewUserResponseDto>> findByUserName(@PathVariable String userName){
-        List<ReviewUserResponseDto> responseDtoList = reviewService.findByUserName(userName);
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<ReviewUserResponseDto>> findByUserId(@PathVariable Long id){
+        List<ReviewUserResponseDto> responseDtoList = reviewService.findByUserId(id);
 
         return new ResponseEntity<>(responseDtoList,HttpStatus.OK);
     }

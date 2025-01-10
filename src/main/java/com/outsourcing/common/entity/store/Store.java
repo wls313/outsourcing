@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "store")
 @NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 public class Store extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,11 +46,6 @@ public class Store extends BaseEntity {
     }
 
     public void updateStore(UpdateStoreRequestDto requestDto) {
-//        this.storeName = requestDto.getStoreName() == null ? this.storeName : requestDto.getStoreName();
-//        this.openTime = requestDto.getOpenTime() == null ? this.openTime : requestDto.getOpenTime();
-//        this.closeTime = requestDto.getCloseTime() == null ? this.closeTime : requestDto.getCloseTime();
-//        this.minimumOrderPrice = requestDto.getMinimumOrderPrice() == null ? this.minimumOrderPrice : requestDto.getMinimumOrderPrice();
-//        this.notice = requestDto.getNotice() == null ? this.notice : requestDto.getNotice();
 
         if (requestDto.getStoreName() != null) {
             this.storeName = requestDto.getStoreName();

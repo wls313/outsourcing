@@ -6,13 +6,20 @@ import java.time.LocalDateTime;
 
 public record ReviewUserResponseDto(
         Double rating,
-        String storeName,
-        String menuName,
-        String userName,
+        Long storeId,
+        Long menuId,
+        Long userId,
         String contents,
         LocalDateTime createdAt
 ){
     public static ReviewUserResponseDto toDto(Review review){
-        return new ReviewUserResponseDto(review.getRating(), review.getStoreName(), review.getMenuName(), review.getUserName(), review.getContents(), review.getCreateAt());
+        return new ReviewUserResponseDto(
+                review.getRating(),
+                review.getStore().getId(),
+                review.getOrder().getMenu().getId(),
+                review.getUser().getId(),
+                review.getContents(),
+                review.getCreateAt()
+        );
     }
 }

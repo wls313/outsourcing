@@ -7,7 +7,7 @@ import com.outsourcing.common.entity.store.Store;
 import com.outsourcing.common.entity.user.User;
 import com.outsourcing.dto.order.OrderRequestDto;
 import com.outsourcing.dto.order.OrderResponseDto;
-import com.outsourcing.repository.MenuRepository;
+import com.outsourcing.repository.menu.MenuRepository;
 import com.outsourcing.repository.order.OrderRepository;
 import com.outsourcing.repository.store.StoreRepository;
 import com.outsourcing.repository.user.UserRepository;
@@ -59,15 +59,13 @@ public class OrderService {
             throw new RuntimeException("최소주문금액을 확인하세요");
         }
 
-        Order order = new Order();
+        Order order = new Order(user, store, orderMenu, OrderStatus.ORDER_CONFIRMED);
 
         return orderRepository.save(order);
 
     }
     //주문 유저별 조회
-    public List<OrderResponseDto> foundOrderByUserIdService(User user){
-
-        long userId = user.getId();
+    public List<OrderResponseDto> foundOrderByUserIdService(Long userId){
 
         List<Order> orderList = orderRepository.findByUserId(userId);
 
