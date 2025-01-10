@@ -16,10 +16,9 @@ public class StoreController {
     private final StoreService storeService;
 
     // 가게 생성
-    @PostMapping
-    public ResponseEntity<CreateStoreResponseDto> createStoreAPI(@RequestBody CreateStoreRequestDto requestDto) {
-
-        CreateStoreResponseDto createdStore = storeService.createStore(requestDto);
+    @PostMapping("/{userId}")
+    public ResponseEntity<CreateStoreResponseDto> createStoreAPI(@PathVariable Long userId, @RequestBody CreateStoreRequestDto requestDto) {
+        CreateStoreResponseDto createdStore = storeService.createStore(userId, requestDto);
         return new ResponseEntity<>(createdStore, HttpStatus.CREATED);
     }
 
