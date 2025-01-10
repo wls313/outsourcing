@@ -32,6 +32,6 @@ public class CreateStoreResponseDto {
                 store.getCloseTime(),
                 store.getMinimumOrderPrice(),
                 store.getNotice(),
-                store.getCreateDate());
+                store.getCreateAt());
     }
 }

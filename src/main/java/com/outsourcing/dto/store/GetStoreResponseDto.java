@@ -25,13 +25,15 @@ public class GetStoreResponseDto {
 
     public static GetStoreResponseDto getStoreDto(Store store) {
 
-        return new GetStoreResponseDto(store.getId(),
+        return new GetStoreResponseDto(
+                store.getId(),
                 store.getStoreName(),
                 store.getOpenTime(),
                 store.getCloseTime(),
                 store.getMinimumOrderPrice(),
                 store.getNotice(),
-                store.getCreateDate());
+                store.getCreateAt()
+        );
     }
 
 }

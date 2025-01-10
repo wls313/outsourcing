@@ -1,4 +1,4 @@
-package com.outsourcing.repository;
+package com.outsourcing.repository.user;
 
 import com.outsourcing.common.entity.user.User;
 import com.outsourcing.common.exception.IdNotFoundExcetion;

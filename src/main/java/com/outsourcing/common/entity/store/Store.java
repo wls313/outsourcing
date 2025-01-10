@@ -7,10 +7,6 @@ import com.outsourcing.dto.store.UpdateStoreRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -36,18 +32,14 @@ public class Store extends BaseEntity {
 
     private String notice; // 공지사항
 
-    // BaseEntity를 상속받아 해당 기능 주석처리
-//    @CreatedDate
-//    @Column(updatable = false)
-//    private LocalDateTime createDate; // 오픈일
-
-    public Store(CreateStoreRequestDto requestDto) {
+    public Store(CreateStoreRequestDto requestDto, User user) {
         this.storeName = requestDto.getStoreName();
         this.openTime = requestDto.getOpenTime();
         this.closeTime = requestDto.getCloseTime();
         this.minimumOrderPrice = requestDto.getMinimumOrderPrice();
         this.notice = requestDto.getNotice();
         this.storeStatus = true;
+        this.user = user;
     }
 
     public void updateStatus(boolean storeStatus) {
