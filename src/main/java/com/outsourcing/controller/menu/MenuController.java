@@ -29,6 +29,7 @@ public class MenuController {
 
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<UpdateStoreResponseDto> deleteStoreAPI(@PathVariable Long id) {
         menuService.deleteMenu(id);

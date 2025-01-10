@@ -42,7 +42,7 @@ public class MenuService {
     @Transactional
     public void deleteMenu(Long id) {
         Menu menu = findById(id);
-        menu.updateStatus(true);
+        menu.updateStatus(false);
         menuRepository.save(menu);
     }
 

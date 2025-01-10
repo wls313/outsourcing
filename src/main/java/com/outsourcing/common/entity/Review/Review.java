@@ -1,6 +1,8 @@
 package com.outsourcing.common.entity.Review;
 
 import com.outsourcing.common.entity.BaseEntity;
+import com.outsourcing.common.entity.order.Order;
+import com.outsourcing.common.entity.store.Store;
 import com.outsourcing.common.entity.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -18,14 +20,6 @@ public class Review extends BaseEntity {
 
     private String contents;
 
-    private String userName;
-
-    private String menuName;
-
-    private String storeName;
-
-    private Long orderId;
-
     @Column(columnDefinition = "boolean default false", nullable = false)
     private boolean modify;
 
@@ -33,19 +27,25 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
+    @ManyToOne
+    @JoinColumn(name  = "store_id")
+    private Store store;
+
     public Review(){
     }
 
-    public static Review create(Double rating,String contents ,String userName,String storeName, String menuName,User user,Long orderId ){
+    public static Review create(Double rating, String contents , User user, Order order ,Store store){
         Review review = new Review();
 
         review.rating = rating;
         review.contents = contents;
-        review.userName = userName;
-        review.menuName = menuName;
         review.user = user;
-        review.orderId = orderId;
-        review.storeName = storeName;
+        review.order = order;
+        review.store = store;
 
         return review;
     }

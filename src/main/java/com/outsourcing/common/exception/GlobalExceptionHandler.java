@@ -1,5 +1,9 @@
 package com.outsourcing.common.exception;
 
+import com.outsourcing.common.exception.menu.MenuIdException;
+import com.outsourcing.common.exception.review.ReviewOrderIdException;
+import com.outsourcing.common.exception.review.ReviewUserIdException;
+import com.outsourcing.common.exception.review.ReviewUserNameException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -43,4 +47,23 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ReviewOrderIdException.class)
+    public ResponseEntity<String> handleReviewOrderIdException(ReviewOrderIdException ex){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ReviewUserIdException.class)
+    public ResponseEntity<String> handleReviewUserIdException(ReviewUserIdException ex){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ReviewUserNameException.class)
+    public ResponseEntity<String> handleReviewUserNameException(ReviewUserNameException ex){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(MenuIdException.class)
+    public ResponseEntity<String> handleMenuIdException(MenuIdException ex){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
 }
