@@ -1,57 +1,78 @@
 package com.outsourcing.controller.order;
 
 import com.outsourcing.common.entity.order.Order;
-import com.outsourcing.common.entity.order.OrderStatus;
+import com.outsourcing.common.entity.user.User;
 import com.outsourcing.dto.order.OrderRequestDto;
 import com.outsourcing.dto.order.OrderResponseDto;
 import com.outsourcing.service.order.OrderService;
-import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/order")
+@RequestMapping("orders")
+@RequiredArgsConstructor
 public class OrderController {
 
     private final OrderService orderService;
-
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
-
+    //손님이 주문
     @PostMapping
+    public ResponseEntity<OrderResponseDto> createOrder(
+            @RequestBody OrderRequestDto requestDto
+            ){
 
-    public Order createOrder(@RequestBody OrderRequestDto orderRequestDto) {
-        Order order = orderRequestDto.toOrder();  // OrderRequestDto에서 직접 변환
-        return orderService.createOrder(order);
+        Order order= orderService.createOrderService(requestDto);
+
+        OrderResponseDto orderResponseDto = new OrderResponseDto(order);
+
+        return new ResponseEntity<>(orderResponseDto, HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public List<OrderResponseDto> getAllOrders() {
-        return orderService.getAllOrders()
-                .stream()
-                .map(OrderResponseDto::new)
-                .collect(Collectors.toList());
+    //손님 주문 목록 조회
+    @GetMapping("/order/{userId}")
+    public ResponseEntity<List<OrderResponseDto>> foundOrderByUserId(
+            @PathVariable("userId")Long id,
+            @RequestBody User user
+    ){
+
+        List<OrderResponseDto> orderResponseDto = orderService.foundOrderByUserIdService(user);
+
+        return new ResponseEntity<>(orderResponseDto, HttpStatus.FOUND);
+
     }
 
-    @GetMapping("/{id}")
-    public OrderResponseDto getOrderById(@PathVariable Long id) {
-        return new OrderResponseDto(
-                orderService.getOrderById(id)
-                        .orElseThrow(() -> new IllegalArgumentException("Order not found"))
-        );
+    //매장 주문 목록 조회
+    @GetMapping("/order/{storeId}")
+    public ResponseEntity<List<OrderResponseDto>> findAllOrder(@PathVariable("storeId")Long storeId){
+
+        List<OrderResponseDto> orderResponseDto = orderService.findAllOrderByStoreIdService(storeId);
+
+        return new ResponseEntity<>(orderResponseDto, HttpStatus.FOUND);
+
     }
 
-    @PutMapping("/{id}/status")
-    public OrderResponseDto updateOrderStatus(@PathVariable Long id, @RequestParam String status) {
-        Order order = orderService.updateOrderStatus(id, OrderStatus.valueOf(status.toUpperCase()));
-        return new OrderResponseDto(order);
-    }
+    //주문 삭제
+    @DeleteMapping("/order/{userId}/{orderId}")
+    public ResponseEntity<String> orderCancellation(
+            @PathVariable Long userId,
+            @PathVariable Long orderId
+    ){
+        orderService.orderCancellationService(userId,orderId);
 
-    @DeleteMapping("/{id}")
-    public void deleteOrder(@PathVariable Long id) {
-        orderService.deleteOrder(id);
+        return new ResponseEntity<>("주문이 취소되었습니다.", HttpStatus.OK);
+    }
+    //주문 상태 변경
+
+    @PatchMapping("/order/{userId}/{orderId}")
+    public ResponseEntity<String> changeOrderStatus(
+            @PathVariable Long userId,
+            @PathVariable Long orderId
+    ){
+        orderService.changeOrderStatusService(userId,orderId);
+
+        return new ResponseEntity<>("주문 상태가 변경되었습니다.", HttpStatus.OK);
     }
 }
