@@ -2,7 +2,7 @@ package com.outsourcing.service.store;
 
 import com.outsourcing.common.entity.store.Store;
 import com.outsourcing.common.entity.user.User;
-import com.outsourcing.common.exception.IdNotFoundExcetion;
+import com.outsourcing.common.exception.user.NotFoundException;
 import com.outsourcing.dto.store.*;
 import com.outsourcing.repository.store.StoreRepository;
 import com.outsourcing.repository.user.UserRepository;
@@ -23,7 +23,7 @@ public class StoreService {
     // 생성
     public CreateStoreResponseDto createStore(Long id, CreateStoreRequestDto requestDto) {
 
-        User foundUser = userRepository.findById(id).orElseThrow(() -> new IdNotFoundExcetion("아이디를 확인해주세요"));
+        User foundUser = userRepository.findById(id).orElseThrow(() -> new NotFoundException("아이디를 확인해주세요"));
         if (!foundUser.getRole().equals("owner")) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "사장님만 가게를 생성할 수 있습니다.");
         }

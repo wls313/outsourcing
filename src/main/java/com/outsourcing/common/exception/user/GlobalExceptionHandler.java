@@ -1,4 +1,4 @@
-package com.outsourcing.common.exception;
+package com.outsourcing.common.exception.user;
 
 import com.outsourcing.common.exception.menu.MenuIdException;
 import com.outsourcing.common.exception.review.ReviewOrderIdException;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(IdNotFoundExcetion.class)
-    public ResponseEntity<ApiResponse<?>> handleIdNotFoundException(IdNotFoundExcetion idNotFoundExcetion){
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ApiResponse<?>> handleIdNotFoundException(NotFoundException idNotFoundExcetion){
         ApiResponse<Object> errorResponse = ApiResponse.error(HttpStatus.NOT_FOUND, idNotFoundExcetion.getErrorMessage());
         return new ResponseEntity<ApiResponse<?>>(errorResponse, HttpStatus.NOT_FOUND);
     }
@@ -27,8 +27,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<ApiResponse<?>>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(PasswordMismatchException.class)
-    public ResponseEntity<ApiResponse<?>> handlePasswordMismatchException(PasswordMismatchException passwordMismatchException){
+    @ExceptionHandler(ArgumentMismatchException.class)
+    public ResponseEntity<ApiResponse<?>> handlePasswordMismatchException(ArgumentMismatchException passwordMismatchException){
         ApiResponse<Object> errorResponse = ApiResponse.error(HttpStatus.UNAUTHORIZED, passwordMismatchException.getErrorMessage());
         return new ResponseEntity<ApiResponse<?>>(errorResponse, HttpStatus.UNAUTHORIZED);
     }

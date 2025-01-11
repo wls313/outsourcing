@@ -1,4 +1,4 @@
-package com.outsourcing.dto;
+package com.outsourcing.dto.user;
 
 import com.outsourcing.common.entity.user.User;
 import lombok.Getter;

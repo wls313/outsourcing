@@ -5,6 +5,8 @@ import com.outsourcing.common.entity.order.Order;
 import com.outsourcing.common.entity.order.OrderStatus;
 import com.outsourcing.common.entity.store.Store;
 import com.outsourcing.common.entity.user.User;
+import com.outsourcing.common.exception.user.ArgumentMismatchException;
+import com.outsourcing.common.exception.user.NotFoundException;
 import com.outsourcing.dto.order.OrderRequestDto;
 import com.outsourcing.dto.order.OrderResponseDto;
 import com.outsourcing.repository.menu.MenuRepository;
@@ -31,14 +33,14 @@ public class OrderService {
     public Order createOrderService(OrderRequestDto requestDto){
 
         User user = userRepository.findById(requestDto.getUserId())
-                .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다"));
+                .orElseThrow(() -> new NotFoundException("유저를 찾을 수 없습니다"));
 
         if(!user.getRole().equals("user")){
-            throw new RuntimeException("손님만 주문이 가능합니다.");
+            throw new ArgumentMismatchException("손님만 주문이 가능합니다.");
         }
 
         Store store = storeRepository.findById(requestDto.getStoreId())
-                .orElseThrow(()->new RuntimeException("해당 매장을 찾을수없습니다."));
+                .orElseThrow(()->new NotFoundException("해당 매장을 찾을수없습니다."));
 
 
         LocalTime now = LocalTime.now();
@@ -47,16 +49,16 @@ public class OrderService {
         LocalTime closeTime = LocalTime.parse(store.getCloseTime());
 
         if(now.isBefore(openTime) || now.isAfter(closeTime)){
-            throw new RuntimeException("지금은 영업시간이 아닙니다");
+            throw new ArgumentMismatchException("지금은 영업시간이 아닙니다");
         }
 
         Menu orderMenu = menuRepository.findById(requestDto.getMenuId())
-                .orElseThrow(()->new RuntimeException("해당 메뉴를 찾을수없습니다."));
+                .orElseThrow(()->new NotFoundException("해당 메뉴를 찾을수없습니다."));
 
         int totalPrice = orderMenu.getMenuPrice();
 
         if(totalPrice < store.getMinimumOrderPrice()){
-            throw new RuntimeException("최소주문금액을 확인하세요");
+            throw new ArgumentMismatchException("최소주문금액을 확인하세요");
         }
 
         Order order = new Order(user, store, orderMenu, OrderStatus.ORDER_CONFIRMED);
@@ -93,15 +95,15 @@ public class OrderService {
     }
 
     public void orderCancellationService(Long userId, Long orderId){
-        User user = userRepository.findById(userId).orElseThrow(()->new RuntimeException("유저를 찾을 수 없습니다"));
-        Order order = orderRepository.findById(orderId).orElseThrow(()->new RuntimeException("주문을 찾을 수 없습니다"));
+        User user = userRepository.findById(userId).orElseThrow(()->new NotFoundException("유저를 찾을 수 없습니다"));
+        Order order = orderRepository.findById(orderId).orElseThrow(()->new NotFoundException("주문을 찾을 수 없습니다"));
 
         if(!user.getRole().equals("user")){
-            throw new RuntimeException("주문을 취소할 권한이 없습니다.");
+            throw new ArgumentMismatchException("주문을 취소할 권한이 없습니다.");
         }
 
         if (order.getStatus().equals(OrderStatus.COOKING_STARTED)){
-            throw new RuntimeException("이미 주문이 수락되었습니다.");
+            throw new ArgumentMismatchException("이미 주문이 수락되었습니다.");
         }
 
         order.updateStatus(OrderStatus.ORDER_CANCELLATION);
@@ -110,11 +112,11 @@ public class OrderService {
     }
 
     public void changeOrderStatusService(Long userId, Long orderId){
-        User user = userRepository.findById(userId).orElseThrow(()->new RuntimeException("유저를 찾을 수 없습니다"));
-        Order order = orderRepository.findById(orderId).orElseThrow(()->new RuntimeException("주문을 찾을 수 없습니다"));
+        User user = userRepository.findById(userId).orElseThrow(()->new NotFoundException("유저를 찾을 수 없습니다"));
+        Order order = orderRepository.findById(orderId).orElseThrow(()->new NotFoundException("주문을 찾을 수 없습니다"));
 
         if(!user.getRole().equals("owner")){
-            throw new RuntimeException("주문상태를 변경할 권한이 없습니다.");
+            throw new ArgumentMismatchException("주문상태를 변경할 권한이 없습니다.");
         }
 
         order.updateStatus(OrderStatus.COOKING_STARTED);

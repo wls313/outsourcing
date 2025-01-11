@@ -1,12 +1,12 @@
-package com.outsourcing.service;
+package com.outsourcing.service.user;
 
 import com.outsourcing.common.config.PasswordEncoder;
 import com.outsourcing.common.entity.user.User;
-import com.outsourcing.common.exception.IdNotFoundExcetion;
-import com.outsourcing.common.exception.PasswordMismatchException;
-import com.outsourcing.common.exception.UnavailableIdOrPasswordException;
-import com.outsourcing.dto.UserCreateResponseDto;
-import com.outsourcing.dto.UserResponseDto;
+import com.outsourcing.common.exception.user.ArgumentMismatchException;
+import com.outsourcing.common.exception.user.NotFoundException;
+import com.outsourcing.common.exception.user.UnavailableIdOrPasswordException;
+import com.outsourcing.dto.user.UserCreateResponseDto;
+import com.outsourcing.dto.user.UserResponseDto;
 import com.outsourcing.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,9 +29,15 @@ public class UserService {
 
         String encodePassword = passwordEncoder.encode(password);
 
-        if(DeleteUserService.isEmailDeleted(email)){
-            throw new UnavailableIdOrPasswordException("이미 탈퇴한 아이디 입니다. ");
+        Optional<User> findUser = userRepository.findByEmail(email);
+
+        if(findUser.isPresent()) {
+            User user = findUser.get();
+            if (!user.isStatus()) {
+                throw new UnavailableIdOrPasswordException("이미 탈퇴한 아이디 입니다. ");
+            }
         }
+
         if (userRepository.findByEmail(email).isPresent()) {
             throw new UnavailableIdOrPasswordException("이미 사용중인 이메일 입니다");
         }
@@ -64,7 +70,7 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findById(id);
 
         if (optionalUser.isEmpty()){
-            throw new IdNotFoundExcetion("아이디를 확인해주세요");
+            throw new NotFoundException("아이디를 확인해주세요");
         }
 
         User findUser = optionalUser.get();
@@ -73,11 +79,11 @@ public class UserService {
 
     }
 
-    public UserResponseDto updateUser(Long id, String name, String email){
+    public UserResponseDto updateUser(Long id, String name){
 
         User findUser = findByIdOrElseThrow(id);
 
-        findUser.updateUser(name, email);
+        findUser.updateUser(name);
 
         User updateUser = userRepository.save(findUser);
 
@@ -96,7 +102,7 @@ public class UserService {
         String encodePassword = passwordEncoder.encode(newPassword);
 
         if(!passwordEncoder.matches(oldPassword, findUser.getPassword())){
-            throw new PasswordMismatchException("비밀번호가 일치하지 않습니다.");
+            throw new ArgumentMismatchException("비밀번호가 일치하지 않습니다.");
         }
 
         findUser.updatePassword(encodePassword);
@@ -111,17 +117,17 @@ public class UserService {
         User findUser = findByIdOrElseThrow(id);
 
         if(!passwordEncoder.matches(password, findUser.getPassword())){
-            throw new PasswordMismatchException("비밀번호를 확인하세요");
+            throw new ArgumentMismatchException("비밀번호를 확인하세요");
         }
 
-        DeleteUserService.addToList(findUser.getEmail());
+        findUser.updateUserStatus(false);
 
-        userRepository.delete(findUser);
+        userRepository.save(findUser);
 
     }
 
     public User findByIdOrElseThrow(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new IdNotFoundExcetion("아이디를 확인해주세요"));
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("아이디를 확인해주세요"));
     }
 
 
