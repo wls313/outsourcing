@@ -1,10 +1,10 @@
-package com.outsourcing.controller;
+package com.outsourcing.controller.user;
 
-import com.outsourcing.dto.UserCreateResponseDto;
-import com.outsourcing.dto.UserPasswordUpdateRequestDto;
-import com.outsourcing.dto.UserRequestDto;
-import com.outsourcing.dto.UserResponseDto;
-import com.outsourcing.service.UserService;
+import com.outsourcing.dto.user.UserCreateResponseDto;
+import com.outsourcing.dto.user.UserPasswordUpdateRequestDto;
+import com.outsourcing.dto.user.UserRequestDto;
+import com.outsourcing.dto.user.UserResponseDto;
+import com.outsourcing.service.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -60,7 +60,7 @@ public class UserController {
     ){
 
         //이메일 수정 불가.
-        UserResponseDto updateUser = userService.updateUser(id, dto.getName(), dto.getEmail());
+        UserResponseDto updateUser = userService.updateUser(id, dto.getName());
 
         return new ResponseEntity<>(updateUser, HttpStatus.OK);
 

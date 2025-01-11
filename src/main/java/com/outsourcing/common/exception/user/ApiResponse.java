@@ -1,4 +1,4 @@
-package com.outsourcing.common.exception;
+package com.outsourcing.common.exception.user;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
