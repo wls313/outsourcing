@@ -4,6 +4,10 @@ import com.outsourcing.common.exception.menu.MenuIdException;
 import com.outsourcing.common.exception.review.ReviewOrderIdException;
 import com.outsourcing.common.exception.review.ReviewUserIdException;
 import com.outsourcing.common.exception.review.ReviewUserNameException;
+import com.outsourcing.common.exception.store.CreateUnauthorizedException;
+import com.outsourcing.common.exception.store.StoreNotFoundException;
+import com.outsourcing.common.exception.store.StoreShutDownException;
+import com.outsourcing.common.exception.store.UnableCreateStoreException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -65,5 +69,34 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MenuIdException.class)
     public ResponseEntity<String> handleMenuIdException(MenuIdException ex){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+//    @ExceptionHandler(StoreNotFoundException.class)
+//    public ResponseEntity<String> handleStoreNotFoundException(StoreNotFoundException ex){
+//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+//    }
+
+    @ExceptionHandler(StoreNotFoundException.class)
+    public ResponseEntity<ApiResponse<?>> handleStoreNotFoundException(StoreNotFoundException storeNotFoundException){
+        ApiResponse<Object> errorResponse = ApiResponse.error(HttpStatus.NOT_FOUND, storeNotFoundException.getErrorMessage());
+        return new ResponseEntity<ApiResponse<?>>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(StoreShutDownException.class)
+    public ResponseEntity<ApiResponse<?>> handleStoreShutDownException(StoreShutDownException storeShutDownException){
+        ApiResponse<Object> errorResponse = ApiResponse.error(HttpStatus.NOT_FOUND, storeShutDownException.getErrorMessage());
+        return new ResponseEntity<ApiResponse<?>>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CreateUnauthorizedException.class)
+    public ResponseEntity<ApiResponse<?>> handleCreateUnauthorizedException(CreateUnauthorizedException createUnauthorizedException){
+        ApiResponse<Object> errorResponse = ApiResponse.error(HttpStatus.UNAUTHORIZED, createUnauthorizedException.getErrorMessage());
+        return new ResponseEntity<ApiResponse<?>>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(UnableCreateStoreException.class)
+    public ResponseEntity<ApiResponse<?>> handleUnableCreateStoreException(UnableCreateStoreException unableCreateStoreException){
+        ApiResponse<Object> errorResponse = ApiResponse.error(HttpStatus.BAD_REQUEST, unableCreateStoreException.getErrorMessage());
+        return new ResponseEntity<ApiResponse<?>>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }
