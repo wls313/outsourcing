@@ -18,4 +18,9 @@ public class WebConfig{
 
         return filterRegistrationBean;
     }
+
+    @Bean
+    public AspectPractice aspectPractice(){
+        return new AspectPractice();
+    }
 }
