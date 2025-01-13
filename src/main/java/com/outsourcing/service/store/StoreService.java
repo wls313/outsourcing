@@ -2,11 +2,11 @@ package com.outsourcing.service.store;
 
 import com.outsourcing.common.entity.store.Store;
 import com.outsourcing.common.entity.user.User;
-import com.outsourcing.common.exception.IdNotFoundExcetion;
 import com.outsourcing.common.exception.store.CreateUnauthorizedException;
 import com.outsourcing.common.exception.store.StoreNotFoundException;
 import com.outsourcing.common.exception.store.StoreShutDownException;
 import com.outsourcing.common.exception.store.UnableCreateStoreException;
+import com.outsourcing.common.exception.user.NotFoundException;
 import com.outsourcing.dto.menu.MenuResponseDto;
 import com.outsourcing.dto.store.*;
 import com.outsourcing.repository.menu.MenuRepository;
@@ -28,27 +28,21 @@ public class StoreService {
     // 생성
     public CreateStoreResponseDto createStore(Long id, CreateStoreRequestDto requestDto) {
 
-        User foundUser = userRepository.findById(id).orElseThrow(() -> new IdNotFoundExcetion("아이디를 확인해주세요"));
+        User foundUser = userRepository.findById(id).orElseThrow(() -> new NotFoundException("아이디를 확인해주세요"));
 
         if (!foundUser.getRole().equals("owner")) {
             throw new CreateUnauthorizedException("사장님만 가게를 생성할 수 있습니다.");
-//                    ResponseStatusException(HttpStatus.UNAUTHORIZED, "사장님만 가게를 생성할 수 있습니다.");
         }
 
         Long countStore = storeRepository.countStoreByUser(id);
 
         if (countStore >= 3) {
             throw new UnableCreateStoreException("가게는 3개까지 생성할 수 있습니다.");
-//                    ResponseStatusException(HttpStatus.BAD_REQUEST, "가게는 3개까지 생성할 수 있습니다.");
         }
 
         Store store = new Store(requestDto, foundUser);
         Store savedStore = storeRepository.save(store);
-//        List<Store> stores = new ArrayList<>();
-//        stores.add(savedStore);
-//        if (stores.size() > 3) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "가게는 3개까지 생성할 수 있습니다.");
-//        }
+
         return CreateStoreResponseDto.createDto(savedStore);
     }
 
@@ -77,7 +71,6 @@ public class StoreService {
         if (foundStore.isStoreStatus() == false) {
 
             throw new StoreShutDownException("폐업된 가게입니다.");
-//                    ResponseStatusException(HttpStatus.NOT_FOUND, "폐업된 가게입니다.");
         }
         return GetStoreResponseDto.getStoreDto(foundStore, menuList);
     }
