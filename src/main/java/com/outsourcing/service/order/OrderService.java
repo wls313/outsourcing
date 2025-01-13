@@ -55,6 +55,10 @@ public class OrderService {
         Menu orderMenu = menuRepository.findById(requestDto.getMenuId())
                 .orElseThrow(()->new NotFoundException("해당 메뉴를 찾을수없습니다."));
 
+        if(!orderMenu.isMenuStatus()){
+            throw new NotFoundException("해당 메뉴를 찾을수없습니다.");
+        }
+
         int totalPrice = orderMenu.getMenuPrice();
 
         if(totalPrice < store.getMinimumOrderPrice()){
@@ -94,6 +98,7 @@ public class OrderService {
         return result;
     }
 
+    //주문취소
     public void orderCancellationService(Long userId, Long orderId){
         User user = userRepository.findById(userId).orElseThrow(()->new NotFoundException("유저를 찾을 수 없습니다"));
         Order order = orderRepository.findById(orderId).orElseThrow(()->new NotFoundException("주문을 찾을 수 없습니다"));
@@ -111,6 +116,7 @@ public class OrderService {
         orderRepository.save(order);
     }
 
+    //주문수락
     public void changeOrderStatusService(Long userId, Long orderId){
         User user = userRepository.findById(userId).orElseThrow(()->new NotFoundException("유저를 찾을 수 없습니다"));
         Order order = orderRepository.findById(orderId).orElseThrow(()->new NotFoundException("주문을 찾을 수 없습니다"));

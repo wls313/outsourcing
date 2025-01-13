@@ -53,4 +53,8 @@ public class Menu {
     public void updateStatus(Boolean menuStatus){
         this.menuStatus = menuStatus;
     }
+
+    public boolean isStatus() {
+        return menuStatus;
+    }
 }
